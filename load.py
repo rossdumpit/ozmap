@@ -2,19 +2,35 @@ import os
 import psycopg2
 import pandas as pd
 from dotenv import load_dotenv
+from urllib.parse import urlparse 
 
 load_dotenv(".env.local")
 
 
+url = os.getenv("NEON_DB_URL")
+result = urlparse(url)
+
+
 def load(df):
 
+    # conn = psycopg2.connect(
+    #     host = os.getenv("DB_HOST"),
+    #     database = os.getenv("DB_NAME"),
+    #     user = os.getenv("DB_USER"),
+    #     password = os.getenv('DB_PASSWORD'),
+    #     port=os.getenv("DB_PORT")
+    # )
+
+
     conn = psycopg2.connect(
-        host = os.getenv("DB_HOST"),
-        database = os.getenv("DB_NAME"),
-        user = os.getenv("DB_USER"),
-        password = os.getenv('DB_PASSWORD'),
-        port=os.getenv("DB_PORT")
+        host = result.hostname,
+        database = result.path[1:],
+        user = result.username,
+        password = result.password,
+        port =result.port,
+        sslmode= "require"
     )
+
 
     cursor = conn.cursor()
 

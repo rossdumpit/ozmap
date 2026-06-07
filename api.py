@@ -4,11 +4,12 @@ import os
 from contextlib import contextmanager
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from urllib.parse import urlparse
 
+load_dotenv(".env.local")
 
-load_dotenv()
-
-
+url = os.getenv("NEON_DB_URL")
+result = urlparse(url)
 
 app = FastAPI()
 app.add_middleware(
@@ -22,12 +23,22 @@ app.add_middleware(
 
 @contextmanager
 def get_db():
+    # conn = psycopg2.connect(
+    #     host = os.getenv("DB_HOST"),
+    #     database = os.getenv("DB_NAME"),
+    #     user = os.getenv("DB_USER"),
+    #     password = os.getenv("DB_PASSWORD")
+
+
     conn = psycopg2.connect(
-        host = os.getenv("DB_HOST"),
-        database = os.getenv("DB_NAME"),
-        user = os.getenv("DB_USER"),
-        password = os.getenv("DB_PASSWORD")
+        host = result.hostname,
+        database = result.path[1:],
+        user = result.username,
+        password = result.password,
+        port =result.port,
+        sslmode= "require"
     )
+
     try:
         yield conn
     finally:
