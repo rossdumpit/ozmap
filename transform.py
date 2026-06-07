@@ -1,10 +1,7 @@
 import pandas as pd
-import ingest 
 from io import BytesIO
 
-def transform():
-
-    data, content_type = ingest.extract()
+def transform(data, content_type):
 
     raw_df = pd.read_excel( BytesIO(data), header =None, engine="openpyxl")
 
@@ -32,7 +29,9 @@ def transform():
     return df, content_type
 
 if __name__ == "__main__":
-    df, content_type = transform()
+    import ingest
+    data, content_type = ingest.extract()
+    df, content_type = transform(data, content_type)
     print(df.head(5))
     print(content_type)
     print(len(df))

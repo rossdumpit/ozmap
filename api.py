@@ -3,8 +3,22 @@ import psycopg2
 import os
 from contextlib import contextmanager
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
 
 load_dotenv()
+
+
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @contextmanager
 def get_db():
@@ -19,8 +33,6 @@ def get_db():
     finally:
         conn.close()
 
-
-app = FastAPI()
 
 @app.get("/")
 def root():
@@ -127,4 +139,6 @@ def triage_catpy():
             return [dict(zip(columns, row)) for row in results]
 
 
-        
+@app.get("/debug-cors")
+def debug():
+    return {"status": "ok"}

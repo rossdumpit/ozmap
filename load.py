@@ -3,7 +3,7 @@ import psycopg2
 import pandas as pd
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(".env.local")
 
 
 def load(df):
@@ -12,7 +12,8 @@ def load(df):
         host = os.getenv("DB_HOST"),
         database = os.getenv("DB_NAME"),
         user = os.getenv("DB_USER"),
-        password = os.getenv('DB_PASSWORD')
+        password = os.getenv('DB_PASSWORD'),
+        port=os.getenv("DB_PORT")
     )
 
     cursor = conn.cursor()

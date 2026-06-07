@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FastAPI Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    canvas { max-width: 800px; margin-bottom: 40px; }
+    button { margin: 5px; }
+  </style>
+</head>
+<body>
+
+<h2>FastAPI Data Dashboard</h2>
+
+<button onclick="loadTop30()">Top 30 Hospitals</button>
+<button onclick="loadTrend()">Trend</button>
+<button onclick="loadAcuity()">Acuity</button>
+<button onclick="loadTriage()">Triage Peak</button>
+
+<canvas id="chart1"></canvas>
+
+<script>
+let chart;
+
+function renderChart(labels, data, label) {
+    const ctx = document.getElementById('chart1').getContext('2d');
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data
+            }]
+        }
+    });
+}
+
+async function loadTop30() {
+    const res = await fetch("http://localhost:8000/top30");
+    const data = await res.json();
+
+    const labels = data.map(d => d.reporting_unit);
+    const values = data.map(d => d.total_presentation);
+
+    renderChart(labels, values, "Top 30 Hospitals");
+}
+
+async function loadTrend() {
+    const res = await fetch("http://localhost:8000/trend");
+    const data = await res.json();
+
+    const labels = data.map(d => d.year);
+    const values = data.map(d => d.total_presentation);
+
+    renderChart(labels, values, "National Trend");
+}
+
+async function loadAcuity() {
+    const res = await fetch("http://localhost:8000/acuity");
+    const data = await res.json();
+
+    const labels = data.map(d => d.state + "-" + d.triage_cat);
+    const values = data.map(d => d.total_presentation);
+
+    renderChart(labels, values, "Acuity by State");
+}
+
+async function loadTriage() {
+    const res = await fetch("http://localhost:8000/triage_catpy");
+    const data = await res.json();
+
+    const labels = data.map(d => d.year + "-" + d.triage_cat);
+    const values = data.map(d => d.presentation);
+
+    renderChart(labels, values, "Triage Peak Hospitals");
+}
+
+</script>
+
+</body>
+</html>
