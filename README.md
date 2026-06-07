@@ -44,8 +44,7 @@ Standardising column names to snake_case
 PostgreSQL connection managed via environment variables (.env)
 Data inserted into ed_pres table using psycopg2
 Idempotency enforced using:
-
-    ON CONFLICT (reporting_unit, reporting_unit_type, state, year, triage_cat)
+ON CONFLICT (reporting_unit, reporting_unit_type, state, year, triage_cat)
 DO NOTHING;
 
 This prevents duplicate ingestion when the pipeline is rerun.
