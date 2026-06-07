@@ -1,7 +1,7 @@
 ED Presentations Data Pipeline (AIHW MyHospitals)
 Overview
 
-This project builds a batch data pipeline that extracts Emergency Department (ED) presentation data from the Australian Institute of Health and Welfare (AIHW) MyHospitals API, transforms it in Python, loads it into a PostgreSQL database, and exposes analytical endpoints via a FastAPI service. The dataset is further explored using Apache Superset dashboards and Jupyter notebooks for time-series analysis and forecasting experiments.
+This project builds a batch data pipeline that extracts Emergency Department (ED) presentation data from the Australian Institute of Health and Welfare (AIHW) MyHospitals API, transforms it in Python, loads it into a PostgreSQL database, and exposes analytical endpoints via a FastAPI service. The dataset is further explored using Apache Superset dashboards and Jupyter notebooks.
 
 Data Source
 
