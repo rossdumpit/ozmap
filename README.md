@@ -47,3 +47,8 @@ Table `ed_pres` has a unique constraint on `(reporting_unit, reporting_unit_type
 - Annual data only, no monthly granularity available via the public API
 - Geography is limited to state and reporting unit level, no postcode or suburb
 - COVID-19 introduces a structural break in 2020-21 that affects any time-series analysis
+
+## Superset
+
+<img width="1888" height="848" alt="Screenshot 2026-06-02 at 05-24-08 untitled dashboard" src="https://github.com/user-attachments/assets/076c9589-caae-4f98-86f1-961dad5c9896" />
+
